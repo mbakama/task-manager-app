@@ -1,0 +1,554 @@
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Custom styles pour TaskFlow */
+.navbar-brand {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+ 
+.task-card {
+  transition: all 0.2s ease;
+  cursor: grab;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.task-card.dragging {
+  transform: rotate(5deg);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.kanban-column {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 70vh;
+}
+
+.kanban-header {
+  border-radius: 12px 12px 0 0;
+  padding: 1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.kanban-body {
+  padding: 1rem;
+  min-height: 60vh;
+}
+
+.drop-zone {
+  min-height: 60vh;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.drop-zone.drag-over {
+  background-color: #e3f2fd;
+  border: 2px dashed #2196f3;
+}
+
+.priority-high {
+  border-left: 4px solid #dc3545;
+}
+
+.priority-medium {
+  border-left: 4px solid #ffc107;
+}
+
+.priority-low {
+  border-left: 4px solid #28a745;
+}
+
+.fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  color: white;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1050;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Styles pour les cursors */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.user-select-none {
+  user-select: none;
+}
+
+/* Amélioration des transitions */
+.nav-link {
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  font-weight: 600;
+}
+
+/* Styles pour les graphiques */
+.recharts-wrapper {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Amélioration des cartes */
+.card {
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-1px);
+}
+
+/* Styles pour la pagination */
+.pagination .page-link {
+  border-radius: 6px;
+  margin: 0 2px;
+  border: 1px solid #dee2e6;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.custom-text-image {
+  text-align: center;
+  width: 40px;
+}
+
+/* Responsive improvements */
+@media (max-width: 576px) {
+  .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .table-responsive {
+    font-size: 0.875rem;
+  }
+
+  .display-6 {
+    font-size: 2rem;
+  }
+}
+
+/* Si
+debar Styles */
+.sidebar {
+  width: 280px;
+  min-height: 100vh;
+  background: white;
+  border-right: 1px solid #e9ecef;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.sidebar-collapsed {
+  width: 80px;
+}
+
+.sidebar-header {
+  padding: 1.5rem 1.25rem;
+  border-bottom: 1px solid #e9ecef;
+  background: #f8f9fa;
+}
+
+.sidebar-nav {
+  padding: 1rem 0;
+  flex-grow: 1;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  color: #6c757d;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: none;
+  margin: 0.25rem 0.75rem;
+  border-radius: 8px;
+}
+
+.sidebar-link:hover {
+  background: #f8f9fa;
+  color: #007bff;
+  transform: translateX(2px);
+}
+
+.sidebar-link.active {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.sidebar-link.active:hover {
+  color: white;
+  transform: translateX(0);
+}
+
+.sidebar-icon {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar-text {
+  margin-left: 0.75rem;
+  font-weight: 500;
+}
+
+.sidebar-action {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.sidebar-stats {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e9ecef;
+  background: #f8f9fa;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}
+
+.sidebar-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e9ecef;
+  background: #f8f9fa;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.user-info {
+  margin-left: 0.75rem;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  margin-left: 280px;
+  min-height: 100vh;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.sidebar-collapsed+.main-content {
+  margin-left: 80px;
+}
+
+.mobile-header {
+  background: white;
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-content {
+  padding: 1.5rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 991.98px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .page-content {
+    padding: 1rem;
+  }
+}
+
+/* Animation pour le collapse de la sidebar */
+@media (min-width: 992px) {
+  .sidebar-collapsed .sidebar-text {
+    opacity: 0;
+    width: 0;
+    margin-left: 0;
+    overflow: hidden;
+  }
+
+  .sidebar-collapsed .sidebar-link {
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .sidebar-collapsed .sidebar-stats,
+  .sidebar-collapsed .user-info {
+    display: none;
+  }
+
+  .sidebar-collapsed .user-profile {
+    justify-content: center;
+  }
+}
+
+/* S
+tyles pour PrimeReact DataTable */
+.p-datatable {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.p-datatable .p-datatable-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  padding: 1rem;
+}
+
+.p-datatable .p-datatable-thead>tr>th {
+  background: #f8f9fa;
+  border-color: #dee2e6;
+  color: #495057;
+  font-weight: 600;
+  padding: 0.75rem;
+}
+
+.p-datatable .p-datatable-tbody>tr>td {
+  padding: 0.75rem;
+  border-color: #dee2e6;
+}
+
+.p-datatable .p-datatable-tbody>tr:hover {
+  background: #f8f9fa;
+}
+
+.p-datatable .p-selection-column {
+  text-align: center;
+}
+
+.p-datatable .p-rowgroup-header {
+  background: #e9ecef;
+}
+
+/* Styles pour les Tags PrimeReact */
+.p-tag {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.p-tag.p-tag-info {
+  background: #007bff;
+}
+
+.p-tag.p-tag-warning {
+  background: #ffc107;
+  color: #212529;
+}
+
+.p-tag.p-tag-success {
+  background: #28a745;
+}
+
+.p-tag.p-tag-danger {
+  background: #dc3545;
+}
+
+.p-tag.p-tag-help {
+  background: #6f42c1;
+}
+
+/* Styles pour les boutons PrimeReact */
+.p-button {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.p-button.p-button-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.p-button.p-button-outlined {
+  border-width: 1px;
+}
+
+/* Styles pour les inputs PrimeReact */
+.p-inputtext {
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.p-inputtext:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.p-input-icon-left>.p-inputtext {
+  padding-left: 2.5rem;
+}
+
+.p-input-icon-left>i {
+  left: 0.75rem;
+  color: #6c757d;
+}
+
+/* Styles pour le Dropdown PrimeReact */
+.p-dropdown {
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: #007bff;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Responsive pour PrimeReact */
+@media (max-width: 768px) {
+  .p-datatable .p-datatable-header {
+    padding: 0.75rem;
+  }
+
+  .p-datatable .p-datatable-thead>tr>th,
+  .p-datatable .p-datatable-tbody>tr>td {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .p-button.p-button-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Animation pour le loading */
+.p-datatable .p-datatable-loading-overlay {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.p-datatable .p-datatable-loading-icon {
+  color: #007bff;
+}
